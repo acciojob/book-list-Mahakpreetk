@@ -1,38 +1,74 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyBookList</title>
+  <style>
+    /* Add your custom CSS styles here */
+  </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
-
   <h1>MyBookList</h1>
-	<div class="form-group">
-		<label for="title">Title</label><br>
-		<input type="text" id="title" name="title" style="width: 300px;"><br>
-		<label for="author">Author</label><br>
-		<input type="text" id="author" name="author" style="width: 300px;"><br>
-		<label for="isbn">ISBN</label><br>
-		<input type="text" id="isbn" name="isbn" style="width: 300px;">
-	</div>
-	<br>
-	<button id="submit">Add book</button>
 
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Author</th>
-				<th>ISBN#</th>
-			</tr>
-		</thead>
-		<tbody class="id=book-list"></tbody>
-	</table>
+  <div class="form-group">
+    <input type="text" id="title" placeholder="Title">
+    <input type="text" id="author" placeholder="Author">
+    <input type="text" id="isbn" placeholder="ISBN#">
+    <button id="submit">Submit</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN#</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="book-list">
+      <!-- Existing and dynamically added rows will be shown here -->
+    </tbody>
+  </table>
+
+  <script>
+    // JavaScript code to handle form submission and deletion of rows
+
+    // Function to handle form submission
+    function addBook() {
+      const title = document.getElementById('title').value;
+      const author = document.getElementById('author').value;
+      const isbn = document.getElementById('isbn').value;
+
+      if (title && author && isbn) {
+        const bookList = document.getElementById('book-list');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td>${title}</td>
+          <td>${author}</td>
+          <td>${isbn}</td>
+          <td><button class="delete" onclick="deleteBook(this)">Delete</button></td>
+        `;
+        bookList.appendChild(newRow);
+
+        // Clear input fields after adding a new book
+        document.getElementById('title').value = '';
+        document.getElementById('author').value = '';
+        document.getElementById('isbn').value = '';
+      } else {
+        alert('Please fill in all fields.');
+      }
+    }
+
+    // Function to handle row deletion
+    function deleteBook(button) {
+      const row = button.parentNode.parentNode;
+      row.remove();
+    }
+
+    // Attach event listener to the submit button
+    document.getElementById('submit').addEventListener('click', addBook);
+  </script>
 </body>
-
 </html>
